@@ -8,9 +8,12 @@ namespace Domain
         public string Name { get; set; }
         public string Description { get; set; }
         public int SerialNumber { get; set; }
+        public int IdNumber { get; set; }
         public RequirementApproveStatus Status { get; set; }
         public SoftwareProject Project { get; set; }
         public ProjectPhase Phase { get; set; }
+        public RequirementType Type { get; set; }
+        public RequirementPriority Priority { get; set; }
         public ICollection<RequirementManagement> Assignees { get; set; }
         public ICollection<Rating> DeveloperRatings { get; set; }
     }

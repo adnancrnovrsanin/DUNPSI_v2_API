@@ -13,6 +13,12 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new List.Query()));
         }
 
+        [HttpGet("{status}")]
+        public async Task<IActionResult> GetRequirementsByStatus(string status)
+        {
+            return HandleResult(await Mediator.Send(new ListByStatus.Query { Status = status }));
+        }
+
         [HttpGet("/user/{appUserId}")]
         public async Task<IActionResult> GetRequirementsByAppUserId(string appUserId)
         {

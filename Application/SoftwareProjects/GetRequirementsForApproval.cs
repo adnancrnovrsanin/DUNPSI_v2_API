@@ -37,13 +37,23 @@ namespace Application.SoftwareProjects
                 
                 switch(request.Params.Status)
                 {
-                    case "WAITING_PRODUCT_MANAGER":
-                        requirementsList = await requirements.Where(r => r.Status == RequirementApproveStatus.WAITING_PRODUCT_MANAGER)
+                    case "WAITING_PRODUCT_MANAGER_CHANGES":
+                        requirementsList = await requirements.Where(r => r.Status == RequirementApproveStatus.WAITING_PRODUCT_MANAGER_CHANGES)
                             .ProjectTo<RequirementDto>(_mapper.ConfigurationProvider)
                             .ToListAsync();
                         break;
-                    case "WAITING_PROJECT_MANAGER":
-                        requirementsList = await requirements.Where(r => r.Status == RequirementApproveStatus.WAITING_PROJECT_MANAGER)
+                    case "WAITING_PROJECT_MANAGER_CHANGES":
+                        requirementsList = await requirements.Where(r => r.Status == RequirementApproveStatus.WAITING_PROJECT_MANAGER_CHANGES)
+                            .ProjectTo<RequirementDto>(_mapper.ConfigurationProvider)
+                            .ToListAsync();
+                        break;
+                    case "WAITING_PRODUCT_MANAGER_APPROVAL":
+                        requirementsList = await requirements.Where(r => r.Status == RequirementApproveStatus.WAITING_PRODUCT_MANAGER_APPROVAL)
+                            .ProjectTo<RequirementDto>(_mapper.ConfigurationProvider)
+                            .ToListAsync();
+                        break;
+                    case "WAITING_PROJECT_MANAGER_APPROVAL":
+                        requirementsList = await requirements.Where(r => r.Status == RequirementApproveStatus.WAITING_PROJECT_MANAGER_APPROVAL)
                             .ProjectTo<RequirementDto>(_mapper.ConfigurationProvider)
                             .ToListAsync();
                         break;

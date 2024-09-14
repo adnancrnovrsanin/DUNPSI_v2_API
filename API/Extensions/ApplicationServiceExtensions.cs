@@ -30,7 +30,7 @@ namespace API.Extensions
             {
                 opt.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithOrigins(["http://localhost:4200", "http://localhost:63797dbd"]);
+                    policy.AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithOrigins(["http://localhost:4200", "http://localhost:49657"]);
                 });
             });
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Details.Handler).Assembly));

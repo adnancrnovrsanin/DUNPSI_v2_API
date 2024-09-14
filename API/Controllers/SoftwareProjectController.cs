@@ -7,6 +7,12 @@ namespace API.Controllers
 {
     public class SoftwareProjectController : BaseApiController
     {
+        [HttpGet]
+        public async Task<IActionResult> GetAllProjects()
+        {
+            return HandleResult(await Mediator.Send(new List.Query()));
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(ProjectCreateDto projectCreateDto)
         {

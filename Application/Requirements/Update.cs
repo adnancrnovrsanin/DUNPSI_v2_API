@@ -33,7 +33,9 @@ namespace Application.Requirements
 
                 requirement.Name = request.Requirement.Name ?? requirement.Name;
                 requirement.Description = request.Requirement.Description ?? requirement.Description;
-                requirement.Status = (user.Role == Role.PRODUCT_MANAGER) ? RequirementApproveStatus.WAITING_PROJECT_MANAGER : RequirementApproveStatus.WAITING_PRODUCT_MANAGER;
+                requirement.Status = (user.Role == Role.PRODUCT_MANAGER) ? RequirementApproveStatus.WAITING_PROJECT_MANAGER_APPROVAL : RequirementApproveStatus.WAITING_PRODUCT_MANAGER_APPROVAL;
+                requirement.Type = Converters.ConvertToRequirementType(request.Requirement.Type);
+                requirement.Priority = Converters.ConvertToRequirementPriority(request.Requirement.Priority);
 
                 var result = await _context.SaveChangesAsync() > 0;
 

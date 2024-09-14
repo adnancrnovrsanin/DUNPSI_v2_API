@@ -9,6 +9,9 @@ namespace Domain.ModelsDTOs
         public string Description { get; set; }
         public string Status { get; set; }
         public int SerialNumber { get; set; }
+        public int IdNumber { get; set; }
+        public string Type { get; set; }
+        public int Priority { get; set; }
         public ICollection<DeveloperDto> AssignedDevelopers { get; set; }
     }
 }

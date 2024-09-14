@@ -2,6 +2,7 @@ using Application.Core;
 using Domain;
 using Domain.ModelsDTOs;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Requirements
@@ -23,7 +24,7 @@ namespace Application.Requirements
             }
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var requirement = await _context.Requirements.FindAsync(request.Requirement.Id);
+                var requirement = await _context.Requirements.Include(r => r.Assignees).SingleOrDefaultAsync(r => r.Id == request.Requirement.Id);
 
                 if (requirement == null) return null;
 
@@ -35,8 +36,13 @@ namespace Application.Requirements
 
                     if (dev == null) return null;
 
+                    if (dev.NumberOfActiveTasks >= 3) return Result<Unit>.Failure("Developer has too many active tasks");
+
+                    if (requirement.Assignees.Any(a => a.AssigneeId == dev.Id)) continue;
+
                     var placement = new RequirementManagement
                     {
+                        Id = Guid.NewGuid(),
                         AssigneeId = dev.Id,
                         RequirementId = requirement.Id,
                         Assignee = dev,

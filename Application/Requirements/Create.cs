@@ -30,18 +30,22 @@ namespace Application.Requirements
                     .SingleOrDefaultAsync(x => x.Id == request.Requirement.ProjectId);
                 var requirementPhase = project.Phases.SingleOrDefault(x => x.Name == "Requirements Analysis");
 
+
                 if (project == null) return null;
 
                 var requirement = new Requirement
                 {
                     Name = request.Requirement.Name,
                     Description = request.Requirement.Description,
-                    Status = (request.Requirement.Status == "WAITING_PRODUCT_MANAGER") ? RequirementApproveStatus.WAITING_PRODUCT_MANAGER : RequirementApproveStatus.WAITING_PROJECT_MANAGER,
+                    Status = Converters.ConvertToRequirementApproveStatus(request.Requirement.Status),
                     ProjectId = request.Requirement.ProjectId,
                     PhaseId = requirementPhase.Id,
                     Project = project,
                     Phase = requirementPhase,
                     SerialNumber = requirementPhase.Requirements.Count + 1,
+                    IdNumber = project.Phases.Sum(p => p.Requirements.Count) + 1,
+                    Type = Converters.ConvertToRequirementType(request.Requirement.Type),
+                    Priority = Converters.ConvertToRequirementPriority(request.Requirement.Priority),
                     Assignees = new List<RequirementManagement>(),
                     DeveloperRatings = new List<Rating>()
                 };

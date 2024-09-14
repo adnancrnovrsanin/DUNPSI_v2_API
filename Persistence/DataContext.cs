@@ -49,8 +49,6 @@ namespace Persistence
 
             builder.Entity<RequirementManagement>(rm =>
             {
-                rm.HasKey(r => new { r.RequirementId, r.AssigneeId });
-
                 rm.HasOne(x => x.Requirement)
                     .WithMany(x => x.Assignees)
                     .HasForeignKey(x => x.RequirementId);
