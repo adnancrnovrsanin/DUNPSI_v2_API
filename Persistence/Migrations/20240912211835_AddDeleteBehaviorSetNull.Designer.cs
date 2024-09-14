@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence;
@@ -11,9 +12,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240912211835_AddDeleteBehaviorSetNull")]
+    partial class AddDeleteBehaviorSetNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -418,17 +421,11 @@ namespace Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<int>("IdNumber")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.Property<Guid>("PhaseId")
                         .HasColumnType("uuid");
-
-                    b.Property<int>("Priority")
-                        .HasColumnType("integer");
 
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uuid");
@@ -437,9 +434,6 @@ namespace Persistence.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Type")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -453,8 +447,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.RequirementManagement", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("RequirementId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("AssigneeId")
@@ -469,14 +462,9 @@ namespace Persistence.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("RequirementId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
+                    b.HasKey("RequirementId", "AssigneeId");
 
                     b.HasIndex("AssigneeId");
-
-                    b.HasIndex("RequirementId");
 
                     b.ToTable("RequirementManagements");
                 });

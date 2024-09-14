@@ -1,6 +1,8 @@
 using System.Globalization;
+using Application.SoftwareCompanies.DTOs;
 using AutoMapper;
 using Domain;
+using Domain.ModelDTOs;
 using Domain.ModelsDTOs;
 
 namespace Application.Core
@@ -56,6 +58,21 @@ namespace Application.Core
                 .ForMember(r => r.AppointedManagerEmail, o => o.MapFrom(s => s.AppointedManager.AppUser.Email));
             CreateMap<ProjectPhase, ProjectPhaseDto>()
                 .ForMember(p => p.Requirements, o => o.MapFrom(s => s.Requirements.Where(r => r.Status == RequirementApproveStatus.APPROVED)));
+            CreateMap<AppUser, UserDto>()
+                .ForMember(u => u.Name, o => o.MapFrom(s => s.Name))
+                .ForMember(u => u.Surname, o => o.MapFrom(s => s.Surname))
+                .ForMember(u => u.Email, o => o.MapFrom(s => s.Email))
+                .ForMember(u => u.ProfileImageUrl, o => o.MapFrom(s => s.Photos.FirstOrDefault(p => p.IsMain).Url))
+                .ForMember(u => u.Photos, o => o.MapFrom(s => s.Photos))
+                .ForMember(u => u.Role, o => o.MapFrom(s => s.Role.ToString()));
+            CreateMap<SoftwareCompany, CompanyRegisterResponse>()
+                .ForMember(sc => sc.Id, o => o.MapFrom(s => s.Id))
+                .ForMember(sc => sc.CompanyName, o => o.MapFrom(s => s.Name))
+                .ForMember(sc => sc.Address, o => o.MapFrom(s => s.Address))
+                .ForMember(sc => sc.Contact, o => o.MapFrom(s => s.Contact))
+                .ForMember(sc => sc.Web, o => o.MapFrom(s => s.Web))
+                .ForMember(sc => sc.User, o => o.MapFrom(s => s.AppUser));
+
             CreateMap<Message, MessageDto>();
             CreateMap<Rating, RatingDto>();
         }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence;
@@ -11,9 +12,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240912191636_AddAdmin")]
+    partial class AddAdmin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,8 +43,8 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a6b6be93-cd52-42bf-9e4f-f6646004709d"),
-                            AppUserId = "401864a8-b24f-447a-9b23-2a942699cfbe"
+                            Id = new Guid("ae8250bf-038b-4f93-be07-2233a74f46eb"),
+                            AppUserId = "08644480-2ef2-4ed5-b76b-5b201fc62788"
                         });
                 });
 
@@ -123,18 +126,17 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "401864a8-b24f-447a-9b23-2a942699cfbe",
+                            Id = "08644480-2ef2-4ed5-b76b-5b201fc62788",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "102233ae-af97-450d-b8a9-b04d60ef5eaa",
+                            ConcurrencyStamp = "f2bdfdf4-f951-4907-afb6-52e571957f91",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
-                            LastActive = new DateTime(2024, 9, 12, 21, 18, 34, 54, DateTimeKind.Utc).AddTicks(7669),
+                            LastActive = new DateTime(2024, 9, 12, 19, 16, 35, 696, DateTimeKind.Utc).AddTicks(6194),
                             LockoutEnabled = false,
                             Name = "Admin",
-                            PasswordHash = "AQAAAAIAAYagAAAAEN43Y6+Mn7fc5UZXCY1zm5GE4ZzHWs7Md6tIymaHFS6clpWpKxmGo9gKikHZHpKfug==",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "d7294b16-fefc-4f2a-8853-cbfba199b8ea",
+                            SecurityStamp = "0c2983d3-2aba-456c-85bb-dfc4b8ac388d",
                             Surname = "Admin",
                             TwoFactorEnabled = false,
                             UserName = "admin"
@@ -176,8 +178,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId")
-                        .IsUnique();
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Developers");
                 });
@@ -320,8 +321,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId")
-                        .IsUnique();
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("ProductManagers");
                 });
@@ -343,8 +343,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId")
-                        .IsUnique();
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("ProjectManagers");
                 });
@@ -418,17 +417,11 @@ namespace Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<int>("IdNumber")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.Property<Guid>("PhaseId")
                         .HasColumnType("uuid");
-
-                    b.Property<int>("Priority")
-                        .HasColumnType("integer");
 
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uuid");
@@ -437,9 +430,6 @@ namespace Persistence.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Type")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -453,8 +443,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.RequirementManagement", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("RequirementId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("AssigneeId")
@@ -469,14 +458,9 @@ namespace Persistence.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("RequirementId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
+                    b.HasKey("RequirementId", "AssigneeId");
 
                     b.HasIndex("AssigneeId");
-
-                    b.HasIndex("RequirementId");
 
                     b.ToTable("RequirementManagements");
                 });
@@ -710,9 +694,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Developer", b =>
                 {
                     b.HasOne("Domain.AppUser", "AppUser")
-                        .WithOne()
-                        .HasForeignKey("Domain.Developer", "AppUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
 
                     b.Navigation("AppUser");
                 });
@@ -778,9 +761,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.ProductManager", b =>
                 {
                     b.HasOne("Domain.AppUser", "AppUser")
-                        .WithOne()
-                        .HasForeignKey("Domain.ProductManager", "AppUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
 
                     b.Navigation("AppUser");
                 });
@@ -788,9 +770,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.ProjectManager", b =>
                 {
                     b.HasOne("Domain.AppUser", "AppUser")
-                        .WithOne()
-                        .HasForeignKey("Domain.ProjectManager", "AppUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
 
                     b.Navigation("AppUser");
                 });
