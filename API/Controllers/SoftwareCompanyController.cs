@@ -1,15 +1,18 @@
 using Application.SoftwareCompanies;
+using Application.SoftwareCompanies.DTOs;
 using Domain.ModelsDTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [AllowAnonymous]
     public class SoftwareCompanyController : BaseApiController
     {
         [HttpPost]
-        public async Task<IActionResult> Create(SoftwareCompanyDto softwareCompanyDto)
+        public async Task<IActionResult> Create(CompanyRegisterRequest companyRegisterRequest)
         {
-            return HandleResult(await Mediator.Send(new Create.Command { SoftwareCompany = softwareCompanyDto }));
+            return HandleResult(await Mediator.Send(new Create.Command { SoftwareCompany = companyRegisterRequest }));
         }
 
         [HttpGet("{companyId}")]

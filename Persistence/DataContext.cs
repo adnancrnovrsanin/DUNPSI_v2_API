@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,14 +7,18 @@ namespace Persistence
 {
     public class DataContext : IdentityDbContext<AppUser>
     {
-        public DataContext(DbContextOptions options) : base(options)
+        private readonly IPasswordHasher<AppUser> _passwordHasher;
+
+        public DataContext(DbContextOptions options, IPasswordHasher<AppUser> passwordHasher) : base(options)
         {
+            _passwordHasher = passwordHasher;
         }
 
         protected DataContext()
         {
         }
 
+        public DbSet<Admin> Admins { get; set; }
         public DbSet<Developer> Developers { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<ProductManager> ProductManagers { get; set; }
@@ -34,6 +39,24 @@ namespace Persistence
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<Developer>()
+                .HasOne(d => d.AppUser)
+                .WithOne()
+                .HasForeignKey<Developer>(d => d.AppUserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<ProjectManager>()
+                .HasOne(d => d.AppUser)
+                .WithOne()
+                .HasForeignKey<ProjectManager>(d => d.AppUserId)
+                .OnDelete(DeleteBehavior.SetNull);
+            
+            builder.Entity<ProductManager>()
+                .HasOne(d => d.AppUser)
+                .WithOne()
+                .HasForeignKey<ProductManager>(d => d.AppUserId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder.Entity<DeveloperTeamPlacement>(dtp =>
             {
@@ -91,6 +114,32 @@ namespace Persistence
                     .WithMany(x => x.AppointedRequests)
                     .HasForeignKey(x => x.AppointedManagerId);
             });
+
+
+            AppUser adminUser = new()
+            {
+                Id = Guid.NewGuid().ToString(),
+                UserName = "admin",
+                Email = "admin@admin.com",
+                Name = "Admin",
+                Surname = "Admin",
+                Role = Role.ADMIN,
+                EmailConfirmed = true
+            };
+
+            adminUser.PasswordHash = _passwordHasher.HashPassword(adminUser, "AdminAdnan123!");
+
+            builder.Entity<AppUser>().HasData(
+                adminUser
+            );
+
+            builder.Entity<Admin>().HasData(
+               new Admin
+               {
+                   Id = Guid.NewGuid(),
+                   AppUserId = adminUser.Id
+               }
+            );
         }
     }
 }
