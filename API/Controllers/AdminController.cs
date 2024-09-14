@@ -41,6 +41,12 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Application.AppUsers.GetAllUsers.Query()));
         }
 
+        [HttpGet("users/admin/{adminId}")]
+        public async Task<IActionResult> GetAdminById(string adminId)
+        {
+            return HandleResult(await Mediator.Send(new Application.Admins.Details.Query { AppUserId = adminId}));
+        }
+
         [HttpGet("search/{search}")]
         public async Task<IActionResult> SearchUsers(string search)
         {
