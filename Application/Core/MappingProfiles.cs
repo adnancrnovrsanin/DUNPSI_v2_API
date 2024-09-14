@@ -1,4 +1,5 @@
 using System.Globalization;
+using Application.SoftwareCompanies.DTOs;
 using AutoMapper;
 using Domain;
 using Domain.ModelDTOs;
@@ -64,6 +65,13 @@ namespace Application.Core
                 .ForMember(u => u.ProfileImageUrl, o => o.MapFrom(s => s.Photos.FirstOrDefault(p => p.IsMain).Url))
                 .ForMember(u => u.Photos, o => o.MapFrom(s => s.Photos))
                 .ForMember(u => u.Role, o => o.MapFrom(s => s.Role.ToString()));
+            CreateMap<SoftwareCompany, CompanyRegisterResponse>()
+                .ForMember(sc => sc.Id, o => o.MapFrom(s => s.Id))
+                .ForMember(sc => sc.CompanyName, o => o.MapFrom(s => s.Name))
+                .ForMember(sc => sc.Address, o => o.MapFrom(s => s.Address))
+                .ForMember(sc => sc.Contact, o => o.MapFrom(s => s.Contact))
+                .ForMember(sc => sc.Web, o => o.MapFrom(s => s.Web))
+                .ForMember(sc => sc.User, o => o.MapFrom(s => s.AppUser));
 
             CreateMap<Message, MessageDto>();
             CreateMap<Rating, RatingDto>();

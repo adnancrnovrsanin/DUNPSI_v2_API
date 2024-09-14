@@ -8,11 +8,6 @@ namespace API.Controllers
     [AllowAnonymous]
     public class ProductManagerController : BaseApiController
     {
-        [HttpPost]
-        public async Task<IActionResult> Create(ProductManagerDto productManagerDto)
-        {
-            return HandleResult(await Mediator.Send(new Create.Command { ProductManager = productManagerDto }));
-        }
 
         [HttpGet("{appUserId}")]
         public async Task<IActionResult> Get(string appUserId)

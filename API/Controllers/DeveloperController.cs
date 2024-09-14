@@ -8,12 +8,6 @@ namespace API.Controllers
     [AllowAnonymous]
     public class DeveloperController : BaseApiController
     {
-        [HttpPost]
-        public async Task<IActionResult> Create(DeveloperDto developerDto)
-        {
-            return HandleResult(await Mediator.Send(new Create.Command { Developer = developerDto }));
-        }
-
         [HttpGet("{appUserId}")]
         public async Task<IActionResult> Get(string appUserId)
         {

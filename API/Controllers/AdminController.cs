@@ -1,4 +1,7 @@
-﻿using Domain.ModelsDTOs;
+﻿using Application.Developers.DTOs;
+using Application.ProductManagers.DTOs;
+using Application.ProjectManagers.DTOs;
+using Domain.ModelsDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,20 +11,19 @@ namespace API.Controllers
     public class AdminController : BaseApiController
     {
         [HttpPost("users/developer")]
-
-        public async Task<IActionResult> Create(DeveloperDto developerDto)
+        public async Task<IActionResult> Create(DeveloperRegisterRequest developerDto)
         {
             return HandleResult(await Mediator.Send(new Application.Developers.Create.Command { Developer = developerDto }));
         }
 
         [HttpPost("users/product-manager")]
-        public async Task<IActionResult> Create(ProductManagerDto productManagerDto)
+        public async Task<IActionResult> Create(ProductManagerRegisterRequest productManagerDto)
         {
             return HandleResult(await Mediator.Send(new Application.ProductManagers.Create.Command { ProductManager = productManagerDto }));
         }
 
         [HttpPost("users/project-manager")]
-        public async Task<IActionResult> Create(ProjectManagerDto projectManagerDto)
+        public async Task<IActionResult> Create(ProjectManagerRegisterRequest projectManagerDto)
         {
             return HandleResult(await Mediator.Send(new Application.ProjectManagers.Create.Command { ProjectManager = projectManagerDto }));
         }
@@ -31,6 +33,5 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new Application.AppUsers.Delete.Command { AppUserId = appUserId }));
         }
-
     }
 }

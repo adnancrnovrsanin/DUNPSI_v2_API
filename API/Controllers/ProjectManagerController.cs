@@ -8,12 +8,6 @@ namespace API.Controllers
     [AllowAnonymous]
     public class ProjectManagerController : BaseApiController
     {
-        [HttpPost]
-        public async Task<IActionResult> Create(ProjectManagerDto projectManagerDto)
-        {
-            return HandleResult(await Mediator.Send(new Create.Command { ProjectManager = projectManagerDto }));
-        }
-
         [HttpGet("{appUserId}")]
         public async Task<IActionResult> Get(string appUserId)
         {
