@@ -1,4 +1,5 @@
-﻿using Application.Developers.DTOs;
+﻿using Application.AppUsers.DTOs;
+using Application.Developers.DTOs;
 using Application.ProductManagers.DTOs;
 using Application.ProjectManagers.DTOs;
 using Domain.ModelsDTOs;
@@ -32,6 +33,24 @@ namespace API.Controllers
         public async Task<IActionResult> Delete(string appUserId)
         {
             return HandleResult(await Mediator.Send(new Application.AppUsers.Delete.Command { AppUserId = appUserId }));
+        }
+
+        [HttpGet("search/all")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            return HandleResult(await Mediator.Send(new Application.AppUsers.GetAllUsers.Query()));
+        }
+
+        [HttpGet("search/{search}")]
+        public async Task<IActionResult> SearchUsers(string search)
+        {
+            return HandleResult(await Mediator.Send(new Application.AppUsers.GetBySearchQuery.Query { SearchQuery = search }));
+        }
+
+        [HttpPatch("users/{appUserId}")]
+        public async Task<IActionResult> UpdateUser(string appUserId, UserPatchRequest userUpdateRequest)
+        {
+            return HandleResult(await Mediator.Send(new Application.AppUsers.Patch.Command { UserId = appUserId, UserPatch = userUpdateRequest }));
         }
     }
 }

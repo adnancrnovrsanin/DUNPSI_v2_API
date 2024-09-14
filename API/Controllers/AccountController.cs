@@ -49,18 +49,6 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Application.AppUsers.GetUserByEmail.Query { Email = email }));
         }
 
-        [HttpGet("search/all")]
-        public async Task<IActionResult> GetAllUsers()
-        {
-            return HandleResult(await Mediator.Send(new Application.AppUsers.GetAllUsers.Query()));
-        }
-
-        [HttpGet("search/{search}")]
-        public async Task<IActionResult> SearchUsers(string search)
-        {
-            return HandleResult(await Mediator.Send(new Application.AppUsers.GetBySearchQuery.Query { SearchQuery = search }));
-        }
-
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetCurrentUser()
