@@ -40,6 +40,11 @@ namespace Application.Core
                 .ForMember(d => d.Surname, o => o.MapFrom(s => s.AppUser.Surname))
                 .ForMember(d => d.Email, o => o.MapFrom(s => s.AppUser.Email))
                 .ForMember(d => d.ProfileImageUrl, o => o.MapFrom(s => s.AppUser.Photos.FirstOrDefault(p => p.IsMain).Url));
+            CreateMap<Admin, AdminDto>()
+                .ForMember(d => d.Name, o => o.MapFrom(s => s.AppUser.Name))
+                .ForMember(d => d.Surname, o => o.MapFrom(s => s.AppUser.Surname))
+                .ForMember(d => d.Email, o => o.MapFrom(s => s.AppUser.Email))
+                .ForMember(d => d.ProfileImageUrl, o => o.MapFrom(s => s.AppUser.Photos.FirstOrDefault(p => p.IsMain).Url));
             CreateMap<Team, TeamDto>()
                 .ForMember(t => t.ProjectId, o => o.MapFrom(s => s.Project.Id))
                 .ForMember(t => t.Developers, o => o.MapFrom(s => s.AssignedDevelopers.Select(d => d.Developer)));
