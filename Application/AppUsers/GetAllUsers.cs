@@ -2,16 +2,10 @@
 using AutoMapper;
 using Domain;
 using Domain.ModelDTOs;
-using Domain.ModelsDTOs;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.AppUsers
 {
