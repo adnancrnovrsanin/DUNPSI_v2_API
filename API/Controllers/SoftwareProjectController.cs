@@ -21,6 +21,12 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Create.Command { SoftwareProject = projectCreateDto }));
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Update(SoftwareProjectDto softwareProjectDto)
+        {
+            return HandleResult(await Mediator.Send(new Update.Command { Project = softwareProjectDto }));
+        }
+
         [HttpGet("{projectId}")]
         public async Task<IActionResult> GetProject(Guid projectId)
         {
@@ -91,6 +97,12 @@ namespace API.Controllers
         public async Task<IActionResult> GetRequirementsForApproval(RequirementsRequestParams requirementsRequestParams)
         {
             return HandleResult(await Mediator.Send(new GetRequirementsForApproval.Query { Params = requirementsRequestParams }));
+        }
+
+        [HttpGet("project-history")]
+        public async Task<IActionResult> GetCompanyProjectHistory()
+        { 
+            return HandleResult(await Mediator.Send(new CompanyProjectHistory.Query()));
         }
     }
 }

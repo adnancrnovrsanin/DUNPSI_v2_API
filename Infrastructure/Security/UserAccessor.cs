@@ -15,12 +15,11 @@ namespace Infrastructure.Security
         public UserAccessor(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
-            
         }
 
         public string GetEmail()
         {
-            var username = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+            var username = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Email);
             if (username == null) return "";
             return username;
         }

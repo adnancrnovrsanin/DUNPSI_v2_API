@@ -1,4 +1,4 @@
-using Application.Core;
+﻿using Application.Core;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain;
@@ -7,13 +7,13 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.ProjectManagers
+namespace Application.SoftwareCompanies
 {
-    public class ProjectHistory
+    public class ListClientProjectsActionNeeded
     {
         public class Query : IRequest<Result<List<SoftwareProjectDto>>>
         {
-            public Guid ManagerId { get; set; }
+            public Guid ClientId { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Result<List<SoftwareProjectDto>>>
@@ -29,10 +29,12 @@ namespace Application.ProjectManagers
             public async Task<Result<List<SoftwareProjectDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var projects = await _context.SoftwareProjects
-                    .Include(sp => sp.AssignedTeam)
-                    .Where(sp => sp.Status == ProjectStatus.COMPLETED && sp.AssignedTeam.ProjectManagerId == request.ManagerId)
+                    .Include(x => x.Client)
+                    .Where(x => x.Client.Id == request.ClientId && x.Status == ProjectStatus.WAITING_CLIENT_INPUT)
                     .ProjectTo<SoftwareProjectDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
+
+                if (projects == null) return Result<List<SoftwareProjectDto>>.Success(new List<SoftwareProjectDto>());
 
                 return Result<List<SoftwareProjectDto>>.Success(projects);
             }

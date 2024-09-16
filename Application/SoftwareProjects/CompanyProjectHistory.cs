@@ -1,19 +1,17 @@
-using Application.Core;
+﻿using Application.Core;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Domain;
 using Domain.ModelsDTOs;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.ProjectManagers
+namespace Application.SoftwareProjects
 {
-    public class ProjectHistory
+    public class CompanyProjectHistory
     {
         public class Query : IRequest<Result<List<SoftwareProjectDto>>>
         {
-            public Guid ManagerId { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Result<List<SoftwareProjectDto>>>
@@ -30,7 +28,6 @@ namespace Application.ProjectManagers
             {
                 var projects = await _context.SoftwareProjects
                     .Include(sp => sp.AssignedTeam)
-                    .Where(sp => sp.Status == ProjectStatus.COMPLETED && sp.AssignedTeam.ProjectManagerId == request.ManagerId)
                     .ProjectTo<SoftwareProjectDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
 

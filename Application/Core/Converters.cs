@@ -1,4 +1,5 @@
 using Domain;
+using System.Net.NetworkInformation;
 
 namespace Application.Core
 {
@@ -37,6 +38,16 @@ namespace Application.Core
                 3 => RequirementPriority.Medium,
                 4 => RequirementPriority.High,
                 _ => RequirementPriority.VeryHigh
+            };
+        }
+
+        public static ProjectStatus ConvertToProjectStatus(string status)
+        {
+            return status switch
+            {
+                "COMPLETED" => ProjectStatus.COMPLETED,
+                "WAITING_CLIENT_INPUT" => ProjectStatus.WAITING_CLIENT_INPUT,
+                _ => ProjectStatus.ACTIVE
             };
         }
     }

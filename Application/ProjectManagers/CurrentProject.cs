@@ -1,6 +1,7 @@
 using Application.Core;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Domain;
 using Domain.ModelsDTOs;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -29,10 +30,13 @@ namespace Application.ProjectManagers
             {
                 var project = await _context.SoftwareProjects
                     .Include(sp => sp.AssignedTeam)
-                    .ProjectTo<SoftwareProjectDto>(_mapper.ConfigurationProvider)
-                    .SingleOrDefaultAsync(sp => sp.AssignedTeam.Manager.Id == request.ManagerId && sp.Finished == false);
+                    .SingleOrDefaultAsync(sp => sp.AssignedTeam.Manager.Id == request.ManagerId && sp.Status != ProjectStatus.COMPLETED);
 
-                return Result<SoftwareProjectDto>.Success(project);
+                if (project == null) return Result<SoftwareProjectDto>.Success(null);
+
+                var projectDto = _mapper.Map<SoftwareProjectDto>(project);
+
+                return Result<SoftwareProjectDto>.Success(projectDto);
             }
         }
     }

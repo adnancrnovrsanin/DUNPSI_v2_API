@@ -45,7 +45,7 @@ namespace Application.SoftwareProjects
                     Name = projectRequest.ProjectName,
                     Description = projectRequest.ProjectDescription,
                     DueDate = projectRequest.DueDate,
-                    Finished = false,
+                    Status = ProjectStatus.ACTIVE,
                     AssignedTeam = team,
                     Client = client,
                     Phases = new List<ProjectPhase>()

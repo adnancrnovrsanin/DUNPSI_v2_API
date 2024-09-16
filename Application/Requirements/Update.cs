@@ -37,6 +37,8 @@ namespace Application.Requirements
                 requirement.Type = Converters.ConvertToRequirementType(request.Requirement.Type);
                 requirement.Priority = Converters.ConvertToRequirementPriority(request.Requirement.Priority);
 
+                _context.Requirements.Update(requirement);
+
                 var result = await _context.SaveChangesAsync() > 0;
 
                 if (!result) return Result<Unit>.Failure("Failed to update requirement");

@@ -21,6 +21,12 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Details.Query { Id = companyId }));
         }
 
+        [HttpGet("projects/{clientId}/action-needed")]
+        public async Task<IActionResult> GetClientProjectsActionNeeded(Guid clientId)
+        {
+            return HandleResult(await Mediator.Send(new ListClientProjectsActionNeeded.Query { ClientId = clientId }));
+        }
+
         [HttpGet("projects/{clientId}")]
         public async Task<IActionResult> GetClientProjects(Guid clientId)
         {

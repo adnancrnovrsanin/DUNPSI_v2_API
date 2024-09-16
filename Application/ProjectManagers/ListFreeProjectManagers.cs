@@ -1,6 +1,7 @@
 using Application.Core;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Domain;
 using Domain.ModelsDTOs;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +28,7 @@ namespace Application.ProjectManagers
                 var managers = await _context.ProjectManagers
                     .Include(pm => pm.AppUser)
                     .Include(pm => pm.ManagedTeams)
-                    .Where(pm => !pm.ManagedTeams.Any(t => t.Project.Finished == false))
+                    .Where(pm => !pm.ManagedTeams.Any(t => t.Project.Status != ProjectStatus.COMPLETED))
                     .ProjectTo<ProjectManagerDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
                 
