@@ -9,10 +9,10 @@ namespace API.Controllers
     [AllowAnonymous]
     public class SoftwareProjectController : BaseApiController
     {
-        [HttpGet]
-        public async Task<IActionResult> GetAllProjects()
+        [HttpGet("active")]
+        public async Task<IActionResult> GetAllActiveProjects()
         {
-            return HandleResult(await Mediator.Send(new List.Query()));
+            return HandleResult(await Mediator.Send(new ListActive.Query()));
         }
 
         [HttpPost]
