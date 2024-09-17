@@ -118,14 +118,14 @@ namespace Persistence
             {
                 Id = Guid.NewGuid().ToString(),
                 UserName = "admin",
-                Email = "admin@admin.com",
+                Email = "admin@example.com",
                 Name = "Admin",
                 Surname = "Admin",
                 Role = Role.ADMIN,
                 EmailConfirmed = true
             };
 
-            adminUser.PasswordHash = _passwordHasher.HashPassword(adminUser, "AdminAdnan123!");
+            adminUser.PasswordHash = _passwordHasher.HashPassword(adminUser, "Test123.");
 
             builder.Entity<AppUser>().HasData(
                 adminUser
