@@ -8,6 +8,8 @@ namespace Domain.ModelsDTOs
         public string Surname { get; set; }
         public string Email { get; set; }
         public string? ProfileImageUrl { get; set; }
+        public double QualityRating { get; set; }
+        public int RatingCount { get; set; }
         public string Position { get; set; }
         public int NumberOfActiveTasks { get; set; }
     }

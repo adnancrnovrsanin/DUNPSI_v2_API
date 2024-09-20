@@ -10,5 +10,6 @@ namespace Domain
         public string MediaUrl { get; set; }
         public Requirement Requirement { get; set; }
         public Developer Assignee { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

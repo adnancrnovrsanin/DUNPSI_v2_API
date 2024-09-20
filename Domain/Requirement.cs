@@ -14,7 +14,9 @@ namespace Domain
         public ProjectPhase Phase { get; set; }
         public RequirementType Type { get; set; }
         public RequirementPriority Priority { get; set; }
+        public int Estimate { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public ICollection<RequirementManagement> Assignees { get; set; }
-        public ICollection<Rating> DeveloperRatings { get; set; }
+        public Rating QualityRating { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 using System.Globalization;
 using Application.SoftwareCompanies.DTOs;
+using Application.SoftwareProjects.DTOs.Dashboard;
 using AutoMapper;
 using Domain;
 using Domain.ModelDTOs;
@@ -22,6 +23,9 @@ namespace Application.Core
             CreateMap<Message, Message>();
             CreateMap<Rating, Rating>();
             CreateMap<Requirement, Requirement>();
+
+            CreateMap<ProjectPhase, ProjectPhaseDashboardDto>();
+            CreateMap<SoftwareProject, SoftwareProjectDashboardDto>();
 
             CreateMap<Developer, DeveloperDto>()
                 .ForMember(d => d.Name, o => o.MapFrom(s => s.AppUser.Name))

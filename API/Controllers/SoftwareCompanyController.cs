@@ -1,6 +1,5 @@
 using Application.SoftwareCompanies;
 using Application.SoftwareCompanies.DTOs;
-using Domain.ModelsDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +12,12 @@ namespace API.Controllers
         public async Task<IActionResult> Create(CompanyRegisterRequest companyRegisterRequest)
         {
             return HandleResult(await Mediator.Send(new Create.Command { SoftwareCompany = companyRegisterRequest }));
+        }
+
+        [HttpGet("{companyId}/requests")]
+        public async Task<IActionResult> GetCompanyRequests(Guid companyId)
+        {
+            return HandleResult(await Mediator.Send(new ListCompanyRequests.Query { CompanyId = companyId }));
         }
 
         [HttpGet("{companyId}")]

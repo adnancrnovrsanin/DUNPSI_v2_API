@@ -84,16 +84,12 @@ namespace Persistence
             builder.Entity<Rating>(r =>
             {
                 r.HasOne(x => x.Requirement)
-                    .WithMany(x => x.DeveloperRatings)
-                    .HasForeignKey(x => x.RequirementId);
+                    .WithOne(x => x.QualityRating)
+                    .HasForeignKey<Rating>(x => x.RequirementId);
 
                 r.HasOne(x => x.ProjectManager)
                     .WithMany(x => x.GivenRatings)
                     .HasForeignKey(x => x.ProjectManagerId);
-
-                r.HasOne(x => x.Developer)
-                    .WithMany(x => x.ReceivedRatings)
-                    .HasForeignKey(x => x.DeveloperId);
             });
 
             builder.Entity<Message>(m =>

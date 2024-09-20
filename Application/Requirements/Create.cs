@@ -47,7 +47,6 @@ namespace Application.Requirements
                     Type = Converters.ConvertToRequirementType(request.Requirement.Type),
                     Priority = Converters.ConvertToRequirementPriority(request.Requirement.Priority),
                     Assignees = new List<RequirementManagement>(),
-                    DeveloperRatings = new List<Rating>()
                 };
 
                 _context.Requirements.UpdateRange(requirementPhase.Requirements);

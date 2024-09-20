@@ -21,16 +21,22 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new ListByStatus.Query { Status = status }));
         }
 
-        [HttpGet("/user/{appUserId}")]
+        [HttpGet("user/{appUserId}")]
         public async Task<IActionResult> GetRequirementsByAppUserId(string appUserId)
         {
             return HandleResult(await Mediator.Send(new ListByUser.Query { AppUserId = appUserId }));
         }
 
-        [HttpGet("/project/{projectId}")]
-        public async Task<IActionResult> GetRequirementsByProjectId(Guid projectId)
+        [HttpGet("project/{projectId}")]
+        public async Task<IActionResult> GetRequrementsByProjectId(Guid projectId)
         {
             return HandleResult(await Mediator.Send(new ListByProject.Query { ProjectId = projectId }));
+        }
+
+        [HttpGet("project/{projectId}/unrated")]
+        public async Task<IActionResult> GetUnratedRequirements(Guid projectId)
+        {
+            return HandleResult(await Mediator.Send(new ListUnrated.Query { ProjectId = projectId }));
         }
 
         [HttpPost]

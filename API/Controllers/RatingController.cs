@@ -9,9 +9,9 @@ namespace API.Controllers
     public class RatingController : BaseApiController
     {
         [HttpPost]
-        public async Task<IActionResult> RateDeveloper(RatingDto ratingDto)
+        public async Task<IActionResult> RateRequirementQuality(RatingDto ratingDto)
         {
-            return HandleResult(await Mediator.Send(new RateDeveloper.Command { RatingDto = ratingDto }));
+            return HandleResult(await Mediator.Send(new RateRequirementQuality.Command { RatingDto = ratingDto }));
         }
     }
 }
